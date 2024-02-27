@@ -18,6 +18,8 @@ repositories {
 dependencies {
     // This dependency is used by the application.
     implementation libs.guava
+    assert delegate == project.dependencies
+    delegate.testImplementation "junit:junit:4.13"
 }
 
 testing {
@@ -29,6 +31,35 @@ testing {
         }
     }
 }
+
+ext {
+  springVersion = "3.1.0.RELEASE"
+}
+sourceSets.all { ext.purpose = null }
+
+sourceSets {
+  main {
+    purpose = "production"
+  }
+  test {
+    purpose = "test"
+  }
+  plugin {
+    purpose = "production"
+  }
+}
+
+tasks.register("pp"){
+  def springVersion = springVersion
+  def productionSourceSets = provider {
+    sourceSets.matching { it.purpose == 'production'}.collect {it.name}
+  }
+  doLast {
+    println springVersion
+    productionSourceSets.get().each {println it}
+  }
+}
+
 
 // Apply a specific Java toolchain to ease working on different environments.
 java {
@@ -63,11 +94,11 @@ tasks.named("firstTask") {
     }
 }
 
-//tasks.register<Copy>("copyTask") {
-//    from("source")
-//    into("target")
-//    include("*.war")
-//}
+// tasks.register<Copy>("copyTask") {
+   // from("source")
+   // into("target")
+   // include("*.war")
+// }
 
  //println name
  //println project.name
@@ -76,10 +107,10 @@ tasks.named("firstTask") {
  //println uri()
 
 tasks.register("zip-reports",Zip){
-    from "Reports"
-    include "*"
-    archiveName "Reports.zip"
-    destinationDir(file('/dir'))
+    from("Reports")
+    include("*")
+    archiveBaseName = "Reports.zip"
+    destinationDirectory = file('/dir')
 }
 
 //def check = tasks.register('check')
@@ -91,3 +122,73 @@ var verification = tasks.register("verification") {
 check.configure {
     dependsOn verification
 }
+
+// tasks.named("test") {
+  // useJUintPlatform()
+// }
+tasks.named("javadoc") {
+
+}
+
+println "${project.layout.projectDirectory}"
+
+class UserInfo {
+  String name
+  String email
+}
+
+tasks.register("configure") {
+  def user = configure(new UserInfo()) {
+    name  = "lucky"
+    email = "lucky@163.com"
+  }
+  doLast {
+    println user.name
+    println user.email
+  }
+}
+
+tasks.register("hello") {
+  group = "Custom"
+  description = "A newly hello task"
+  doLast {
+    println "$group -- $description"
+  }
+}
+
+tasks.register("intro") {
+  dependsOn tasks.hello
+  doLast {
+    println "Task Intro"
+  }
+}
+
+
+
+4.times { counter -> 
+  tasks.register("task$counter") {
+    doLast {
+      println "i'am task $counter"
+    }
+  }
+}
+//动态添加依赖
+tasks.named("task0") {
+  dependsOn("task1","task2")
+}
+
+
+tasks.named("hello") {
+  doFirst {
+    println "first hello"
+  }
+}
+
+abstract class HelloTask extends DefaultTask {
+  @TaskAction
+  void run(){
+    println "Extends Default Task"
+  }
+}
+
+tasks.create("defalutHello",HelloTask)
