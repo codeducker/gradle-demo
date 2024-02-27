@@ -5,7 +5,6 @@
  * For more details on building Java & JVM projects, please refer to https://docs.gradle.org/8.5/userguide/building_java_projects.html in the Gradle documentation.
  * This project uses @Incubating APIs which are subject to change.
  */
-
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
@@ -69,3 +68,26 @@ tasks.named("firstTask") {
 //    into("target")
 //    include("*.war")
 //}
+
+ //println name
+ //println project.name
+ //println path
+ //println layout
+ //println uri()
+
+tasks.register("zip-reports",Zip){
+    from "Reports"
+    include "*"
+    archiveName "Reports.zip"
+    destinationDir(file('/dir'))
+}
+
+//def check = tasks.register('check')
+var verification = tasks.register("verification") {
+//    verification ->  check.get().dependsOn verification
+}
+
+
+check.configure {
+    dependsOn verification
+}
