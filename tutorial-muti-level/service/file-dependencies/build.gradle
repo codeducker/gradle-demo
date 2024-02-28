@@ -1,0 +1,18 @@
+plugins {
+    id 'myproject.java-conventions'
+}
+dependencies {
+    implementation files(layout.buildDirectory.dir('classes')){
+        buildBy 'compile'
+    }
+}
+
+tasks.register('compile') {
+    doLast {
+        println 'compile classes'
+    }
+}
+
+tasks.register('list') {
+    FileCollection compileCollection = configurations.compileClasspath
+}   
