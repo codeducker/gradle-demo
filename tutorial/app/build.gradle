@@ -94,11 +94,11 @@ tasks.named("firstTask") {
     }
 }
 
-// tasks.register<Copy>("copyTask") {
-   // from("source")
-   // into("target")
-   // include("*.war")
-// }
+tasks.register("copyTask",Copy) {
+   from("source")
+   into("target")
+   include("*.war")
+}
 
  //println name
  //println project.name
@@ -191,4 +191,27 @@ abstract class HelloTask extends DefaultTask {
   }
 }
 
-tasks.create("defalutHello",HelloTask)
+tasks.create("defalutHello",HelloTask) {
+  group = "Custom"
+  description = "Self Custom Hello Task"
+}
+
+abstract class CreateFileTask extends DefaultTask {
+ 
+  @Input 
+  def fileText = "Hello from CreateFileTask"
+
+  @Input
+  def fileName = "CreateFile.txt"
+
+  @OutputFile
+  def file = new File(fileName)
+
+  @TaskAction
+  void fun(){
+    file.createNewFile()
+    file.write(fileText)
+  }
+}}
+
+tasks.register("createFile",CreateFileTask)
