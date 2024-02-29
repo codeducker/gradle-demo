@@ -3,7 +3,7 @@ plugins {
 }
 dependencies {
     implementation files(layout.buildDirectory.dir('classes')){
-        buildBy 'compile'
+        builtBy 'compile'
     }
 }
 
@@ -15,4 +15,8 @@ tasks.register('compile') {
 
 tasks.register('list') {
     FileCollection compileCollection = configurations.compileClasspath
+    dependsOn compileCollection
+    doLast {
+        println  "classpath = ${compileCollection.collect {File file -> file.name}}"
+    }
 }   
