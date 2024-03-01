@@ -1,0 +1,27 @@
+plugins {
+    id "java"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompileOnly 'junit:junit:4.13'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.1'
+}
+
+test {
+    useJUnitPlatform()
+
+    filter {
+        includeTestsMatching "*UiCheck"
+
+        //include all tests from package
+//        includeTestsMatching "org.gradle.internal.*"
+
+        //include all integration tests
+        includeTestsMatching "*IntegTest"
+    }
+}

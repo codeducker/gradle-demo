@@ -212,6 +212,6 @@ abstract class CreateFileTask extends DefaultTask {
     file.createNewFile()
     file.write(fileText)
   }
-}}
+}
 
 tasks.register("createFile",CreateFileTask)
