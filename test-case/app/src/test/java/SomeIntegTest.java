@@ -5,4 +5,9 @@ public class SomeIntegTest {
     public void likeUiCheck() {
         System.out.println("Test UiCheck println");
     }
+
+    @Test
+    public void sayNo(){
+        System.out.println("File Watching Change");
+    }
 }

@@ -4,3 +4,9 @@ plugins {
 application {
     mainClass = "com.loern.Main"
 }
+
+tasks.register('verifyUrl', VerifyUrl)
+
+tasks.named('wrapper') {
+    distributionType = Wrapper.DistributionType.ALL
+}

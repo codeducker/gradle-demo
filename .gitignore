@@ -3,4 +3,8 @@
 */build
 */*/build
 */*/*/build
+*/*/*/*/build
 .fleet
+.idea
+*/gradle
+*/*/*/build/*
