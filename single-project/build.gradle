@@ -77,12 +77,12 @@ abstract class GreetingTask extends DefaultTask {
 def b = 0
 def c = 0
 
-tasks.register('genrate', Generator) {
-    properties.put("a", 1)
-    // Values have not been configured yet
-    properties.put("b", providers.provider { b })
-    properties.putAll(providers.provider { [c: c, d: c + 1] })
-}
+//tasks.register('genrate', Generator) {
+//    properties.put("a", 1)
+//    // Values have not been configured yet
+//    properties.put("b", providers.provider { b })
+//    properties.putAll(providers.provider { [c: c, d: c + 1] })
+//}
 
 objects.fileProperty()
 
